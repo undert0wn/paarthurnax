@@ -52,7 +52,7 @@ Paarthurnax is **not a VS Code extension** (and not tied to VS Code at all). It'
 
 ## Quick start
 
-1. **Install Ollama** and pull a few strong coding models:
+1. **[Install Ollama](https://ollama.com/)** and pull a few strong coding models:
 
    ```bash
    ollama pull qwen2.5-coder:14b
@@ -77,9 +77,9 @@ Paarthurnax is **not a VS Code extension** (and not tied to VS Code at all). It'
 
    **Recommended Local Tools**
 
-   - **Git** — version control and submodules
-   - **Node.js** — required for many MCP servers (via npx)
-   - **PowerShell 7+** — recommended shell for cross-platform scripting
+   - **[Git](https://git-scm.com/)** — version control and submodules
+   - **[Node.js](https://nodejs.org/)** — required for many MCP servers (via npx)
+   - **[Docker](https://www.docker.com/)** — containers, volumes & MCP servers (Windows/macOS/Ubuntu)
 
 3. **Add Paarthurnax** to your project from the official repository at https://github.com/undert0wn/paarthurnax:
 
