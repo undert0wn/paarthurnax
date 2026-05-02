@@ -5,19 +5,19 @@
 
 > *Codename: **Paarthurnax**. A powerful ancient being (not unlike AI) who chooses to help mortals, teach them, and guide them. Wise, patient, and never gatekeeping.*
 
-A drop-in governance scaffold that gives local open-source LLMs the behavioral structure they need to be useful coding partners inside an IDE.
+A drop-in governance scaffold that (hopefully) gives local open-source LLMs the behavioral structure they need to be useful coding partners inside an IDE.
 
 > **Legal Disclaimer:** This project is an independent, unofficial project inspired by The Elder Scrolls V: Skyrim. It is not affiliated with, endorsed by, or connected to Bethesda Softworks, Zenimax Media, Microsoft, or any official Skyrim/Dragon assets. This project uses the character name "Paarthurnax" purely for thematic inspiration and does not include any official Skyrim imagery, logos, dragon fonts, or direct quotes.
 
 *In plain English: make your local LLM useful in VS Code.*
 
-> **About this project.** `Paarthurnax` is a solo hobby project — one person learning in the open. The author runs Ollama on a separate desktop and is using this scaffold to figure out how to make small local models behave well inside an IDE. It might grow into something bigger; for now it's a sketchbook with a license. **Expect churn**: folder layout, file names, and conventions will shift as it gets exercised. If you're depending on any of it, pin a commit. Issues and forks are welcome — there's no SLA on responses, and no contribution policy beyond "be decent." The Apache-2.0 license is here for legal clarity, not to imply a team.
+> **About this project.** `Paarthurnax` is a solo hobby project, one person learning in the open. The author runs Ollama on a desktop and is using this scaffold to figure out how to make small local models behave well inside an IDE. It might grow into something bigger; for now it's a sketchbook with a license. **Expect churn**: folder layout, file names, and conventions will shift as it gets exercised. If you're depending on any of it, pin a commit. Issues and forks are welcome but there's no SLA on responses, and no contribution policy beyond "be decent." The Apache-2.0 license is here for legal clarity, NOT to imply a team.
 
 ---
 
 ## The problem
 
-Local LLMs (DeepSeek, Qwen, Llama, Mistral, Gemma, soon Grok-OSS) are excellent in a CLI chat — ask a question, get an answer. But the moment you point one at a real codebase inside VS Code (or any IDE) and ask it to *build something*, it falls apart:
+Local LLMs (DeepSeek, Qwen, Llama, Mistral, Gemma, soon Grok-OSS) are excellent in a CLI chat. You ask a question, get an answer. But the moment you point one at a real codebase inside VS Code (or any IDE) and ask it to *build something*, it falls apart:
 
 - It doesn't know which files are safe to read or write.
 - It invents file paths, hallucinates dependencies, edits the wrong file.
@@ -52,7 +52,7 @@ Paarthurnax is **not a VS Code extension** (and not tied to VS Code at all). It'
 
 ## Quick start
 
-1. **Install [Ollama](https://ollama.com)** and pull a coding-capable model:
+1. **Install Ollama** and pull a few strong coding models:
 
    ```bash
    ollama pull qwen2.5-coder:14b
@@ -62,14 +62,51 @@ Paarthurnax is **not a VS Code extension** (and not tied to VS Code at all). It'
    ollama pull deepseek-coder-v2:16b
    ```
 
-2. **Copy the `paarthurnax/` folder into the root of your project.**
-3. **Point your agent at it:**
+2. **Set up your IDE**. I started with **VS Code** as the primary environment. Install some extensions and tools:
+
+   **Recommended VS Code Extensions**
+
+   | Extension              | Purpose                              |
+   |------------------------|--------------------------------------|
+   | GitHub Copilot         | Primary AI coding assistant          |
+   | Cline                  | Powerful local-first agent           |
+   | Continue               | Open-source AI coding assistant      |
+   | GitLens                | Enhanced Git experience & history    |
+   | Docker                 | Container & MCP server support       |
+   | Markdown All in One    | Better documentation editing         |
+
+   **Recommended Local Tools**
+
+   - **Git** — version control and submodules
+   - **Node.js** — required for many MCP servers (via npx)
+   - **PowerShell 7+** — recommended shell for cross-platform scripting
+
+3. **Add Paarthurnax** to your project from the official repository at https://github.com/undert0wn/paarthurnax:
+
+   - **New project (recommended)**: Clone the repo
+     ```bash
+     git clone https://github.com/undert0wn/paarthurnax.git my-project
+     cd my-project
+     ```
+
+   - **Existing project**: Add as a git submodule
+     ```bash
+     git submodule add https://github.com/undert0wn/paarthurnax.git paarthurnax
+     git submodule update --init --recursive
+     ```
+
+   - Or download the latest zip from the GitHub repository and extract the `paarthurnax` folder.
+
+4. **Point your agent at it:**
    - **VS Code + Cline** → see [`.cline/README.md`](.cline/README.md).
    - **VS Code + Continue** → see [`.continue/README.md`](.continue/README.md).
    - **GitHub Copilot** → already auto-loads [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
    - **Claude Code** → already auto-loads [`CLAUDE.md`](CLAUDE.md).
    - **Custom Ollama loop** → inject [`CLAUDE.md`](CLAUDE.md) as the system prompt and implement the action protocol from [`CONVENTIONS.md`](CONVENTIONS.md) → *Local-model loops*; see [`ARCHITECTURE.md`](ARCHITECTURE.md) → *Local-model deployment*.
-4. Ask your model to build something. It now knows where it is, what it can touch, and how to behave.
+
+5. Ask your model to build something. It now knows where it is, what it can touch, and how to behave.
+
+> **Note**: The `paarthurnax/` folder (or submodule) should be committed to your repository so the governance rules travel with your project.
 
 > When an external system has to be named in any Paarthurnax file, the scaffold uses the placeholder `<REMOTE-AI>` (and `<REMOTE-CLI>` for a direct CLI to the same system).
 
