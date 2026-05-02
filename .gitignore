@@ -1,0 +1,120 @@
+# =============================================================================
+# paarthurnax/.gitignore
+#
+# Keeps the paarthurnax/ scaffold safe to push to a public GitHub repo by ignoring
+# everything that is instance-specific, secret-bearing, or machine-local.
+#
+# Rules referenced below:
+#   - paarthurnax/CONVENTIONS.md → Workspace & Scratch File Conventions
+#   - paarthurnax/CONVENTIONS.md → Connecting to a Remote Agent
+#   - paarthurnax/ARCHITECTURE.md → "Model-family folders" → "Keep your customized Modelfile outside paarthurnax/"
+#   - paarthurnax/.github/copilot-instructions.md and paarthurnax/CLAUDE.md → "agent should
+#     auto-create runtime/ and scratch/ on first use, gitignore them"
+# =============================================================================
+
+
+# --- Mandated by paarthurnax/CONVENTIONS.md (instance-bound, never commit) -----------
+# These folders hold real <REMOTE-AI> instance IDs, URLs, tokens, and exported
+# artifacts. The scaffold's own briefings promise these are gitignored.
+runtime/
+scratch/
+
+
+# --- Per-vendor private config (commit *.example.* siblings instead) ---------
+# The README.md inside each of these folders is committable scaffolding.
+# The actual live configs below contain secrets and personal preferences.
+.vscode/settings.json
+.vscode/mcp.json
+.continue/config.yaml
+
+# (intentionally NOT ignored: .vscode/extensions.json, .vscode/launch.json,
+#  .vscode/tasks.json, .cline/.clinerules, .cline/.clineignore,
+#  .continue/rules/ — these are project-shared and safe to commit.)
+
+
+# --- Standard ecosystem ignores ----------------------------------------------
+# None of these exist in paarthurnax/ today, but they will the moment any real code
+# (e.g. an MCP server stub, build tooling, Python helpers) lands.
+
+# Node.js / npm / pnpm / yarn
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/cache/
+.yarn/install-state.gz
+.yarn/build-state.yml
+.pnp.*
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+out/
+.cache/
+.next/
+.nuxt/
+.svelte-kit/
+.turbo/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Test / coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Logs
+*.log
+logs/
+
+
+# --- Secrets (never commit, regardless of where they appear) -----------------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+secrets/
+*.local.*
+
+
+# --- OS / editor noise -------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# Vim / Emacs
+*.swp
+*.swo
+*.swn
+*~
+
+# JetBrains IDEs (IntelliJ, WebStorm, PyCharm, ...)
+.idea/
+
+# Backup / merge leftovers
+*.bak
+*.orig
+*.rej

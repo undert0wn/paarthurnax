@@ -1,0 +1,66 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/mcp-client.json",
+  "_comment": [
+    "Example MCP client configuration for the paarthurnax/ scaffold.",
+    "All entries below are DUMMY DATA — Skyrim-flavored placeholders showing the",
+    "shape an agent (Copilot, Claude Code, Cursor, Cline, etc.) expects when it",
+    "auto-discovers MCP servers from this file. Replace each entry with a real",
+    "server before pointing your agent at it.",
+    "",
+    "File location convention: this `.mcp.json` lives at the workspace root and",
+    "is read by Claude Code, Cursor, Copilot CLI, and other MCP-aware clients.",
+    "VS Code's GitHub Copilot Chat reads `.vscode/mcp.json` instead — same shape,",
+    "different top-level key (`servers` vs `mcpServers`).",
+    "",
+    "Transports supported by MCP: stdio (most common, shown below), HTTP+SSE,",
+    "and Streamable HTTP. See https://modelcontextprotocol.io for the full spec."
+  ],
+
+  "mcpServers": {
+
+    "paarthurnax": {
+      "_comment": "Local stdio server — the leader of the Greybeards. Wise, patient, runs entirely on your machine. Replace with your real local MCP server.",
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@your-org/your-mcp-server@latest", "--stdio"],
+      "env": {
+        "MCP_LOG_LEVEL": "info",
+        "DRAGONBORN_NAME": "Dovahkiin"
+      }
+    },
+
+    "high-hrothgar": {
+      "_comment": "Remote HTTP server — the monastery on the Throat of the World. Reachable over the network. Use Streamable HTTP for new servers; the legacy SSE transport is also supported by older clients.",
+      "type": "http",
+      "url": "https://high-hrothgar.skyrim.example/mcp",
+      "headers": {
+        "Authorization": "Bearer thu-um-token-goes-here",
+        "X-Shout": "Fus-Ro-Dah"
+      }
+    },
+
+    "blackreach-archive": {
+      "_comment": "Local stdio server with a working directory and explicit binary path. Useful when the server is a checked-out project rather than an npm package.",
+      "type": "stdio",
+      "command": "node",
+      "args": ["./servers/blackreach/dist/index.js"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "DWEMER_KEY": "replace-me",
+        "AETHERIUM_CACHE_DIR": "${workspaceFolder}/.cache/aetherium"
+      }
+    },
+
+    "college-of-winterhold": {
+      "_comment": "Python-based MCP server launched via uv. Shape works for any language — only `command`, `args`, and `env` change.",
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "--directory", "./servers/winterhold", "winterhold-mcp"],
+      "env": {
+        "ARCH_MAGE": "Tolfdir",
+        "MCP_LOG_LEVEL": "debug"
+      }
+    }
+
+  }
+}
