@@ -17,7 +17,7 @@ A drop-in governance scaffold that (hopefully) gives local open-source LLMs the 
 
 ## The problem
 
-Local LLMs (DeepSeek, Qwen, Llama, Mistral, Gemma, soon Grok-OSS) are excellent in a CLI chat. You ask a question, get an answer. But the moment you point one at a real codebase inside VS Code (or any IDE) and ask it to *build something*, it falls apart:
+Local LLMs (DeepSeek, Qwen, Llama, Mistral, Gemma) are excellent in a CLI chat. You ask a question, get an answer. But the moment you point one at a real codebase inside VS Code (or any IDE) and ask it to *build something*, it falls apart:
 
 - It doesn't know which files are safe to read or write.
 - It invents file paths, hallucinates dependencies, edits the wrong file.
@@ -83,10 +83,10 @@ Paarthurnax is **not a VS Code extension** (and not tied to VS Code at all). It'
 
 3. **Add Paarthurnax** to your project from the official repository at https://github.com/undert0wn/paarthurnax:
 
-   - **New project (recommended)**: Clone the repo
+   - **New project (recommended)**: Clone the repo (replace `your-project` with your own folder name)
      ```bash
-     git clone https://github.com/undert0wn/paarthurnax.git my-project
-     cd my-project
+     git clone https://github.com/undert0wn/paarthurnax.git your-project
+     cd your-project
      ```
 
    - **Existing project**: Add as a git submodule
