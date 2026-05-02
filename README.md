@@ -17,7 +17,7 @@ A drop-in governance scaffold that (hopefully) gives local open-source LLMs the 
 
 ## The problem
 
-Local LLMs (DeepSeek, Qwen, Llama, Mistral, Gemma) are excellent in a CLI chat. You ask a question, get an answer. But the moment you point one at a real codebase inside VS Code (or any IDE) and ask it to *build something*, it falls apart:
+Local LLMs (DeepSeek, Qwen, Llama, Mistral, Gemma, soon Grok-OSS) are excellent in a CLI chat. You ask a question, get an answer. But the moment you point one at a real codebase inside VS Code (or any IDE) and ask it to *build something*, it falls apart:
 
 - It doesn't know which files are safe to read or write.
 - It invents file paths, hallucinates dependencies, edits the wrong file.

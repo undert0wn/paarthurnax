@@ -1,0 +1,103 @@
+# Gemma family — governance documentation
+
+> **Status (open-weight reality):** Google does **not** publish a vendor-blessed governance file convention for Gemma. Governance lives in the Ollama `Modelfile` (system prompt + sampling) and in whichever client drives the model. This file documents the why behind those choices.
+
+> **Relationship to the Modelfile:** This file is documentation. The actual governed model configuration lives at `ollama/gemma/gemma4.Modelfile`. If you are looking to recreate or modify the model, start there. This file explains the reasoning behind the choices made in that Modelfile.
+
+> **Why this family is in `paarthurnax/` despite weak native tool calling.** Gemma does not ship with native function-calling tokens, which is why it doesn't make most "agent loop" tier lists. However, in practice it follows structured prose-based protocols (the `[READ]` / `[WRITE]` / `[RUN]` action shapes documented in `CONVENTIONS.md` → *Local-model loops*) more reliably than several models that *do* have native tool-calling tokens. If your loop is built around prose-protocol parsing rather than the OpenAI `tool_calls` schema, Gemma punches well above its weight. Keep this constraint in mind when wiring it up.
+
+---
+
+## What's in the family
+
+| Variant | Sizes | Notes |
+|---|---|---|
+| Gemma 2 | 2B, 9B, 27B | The general-purpose line. 9B is the 16 GB VRAM sweet spot. |
+| Gemma 3 | 1B, 4B, 12B, 27B | Adds true multimodality (vision) and a 128k context window on the 4B+ sizes. |
+| Gemma 4 | Various | Current generation. Native multimodal. What paarthurnax currently governs. |
+| CodeGemma | 2B, 7B | Code-tuned variants of Gemma 1.x. Mostly superseded by Qwen-Coder / DeepSeek-Coder for new work. |
+| ShieldGemma | 2B, 9B, 27B | Safety classifier variants — not for generation. |
+
+Common Ollama tags: `gemma2:9b`, `gemma2:27b`, `gemma3:4b`, `gemma3:12b`, `gemma3:27b`, `gemma4:latest`.
+
+---
+
+## Where governance actually lives
+
+Same ranking as the rest of the open-weight world:
+
+1. **Modelfile `SYSTEM` block** (most reliable) → `ollama/gemma/gemma4.Modelfile`
+2. **Client rule files** (`.continue/rules/`, `.clinerules`, etc.)
+3. **`AGENTS.md`** for cross-tool clients
+
+---
+
+## Family-specific quirks
+
+These are the reasons the Modelfile is configured the way it is. Understanding these helps when updating or recreating the governed model.
+
+**Chat template**
+Gemma uses its own format — `<start_of_turn>user` ... `<end_of_turn>` ... `<start_of_turn>model` ... `<end_of_turn>`. Always include `<end_of_turn>` as a stop token or the model continues past its turn. There is no separate system role — Gemma's chat template prepends the system prompt to the first user message. Ollama handles this automatically, but if you build prompts by hand, account for it.
+
+**No native tool-calling tokens**
+Gemma was not trained with the OpenAI-style `tool_calls` schema. Loops that rely on JSON tool-call envelopes will see the model improvise the format and fail to parse roughly half the time. Use prose-protocol action blocks instead (`[READ]` / `[WRITE]` / `[RUN]` from `CONVENTIONS.md`) — Gemma follows those reliably.
+
+**Repetition penalty hurts quality**
+Unlike most open-weight families where `repeat_penalty 1.05` is a free win, Gemma was trained without it. Raising it noticeably degrades coherence. The Modelfile leaves it at `1.0` for this reason.
+
+**Safety tuning**
+Gemma is more aggressively safety-tuned than Qwen or Mistral. It will sometimes refuse benign requests that touch security topics. The Modelfile addresses this with explicit trusted developer environment framing in the SYSTEM block.
+
+**Vision**
+Gemma 3 and 4 (4B+) are natively multimodal — images can be passed directly. Useful for screenshot-driven debugging.
+
+**Context window**
+8k native on Gemma 2. 128k native on Gemma 3 and 4. Practical limit is always VRAM. The Modelfile uses 32768 as a balance — reduce to 8192 if you hit memory errors on 8GB VRAM.
+
+---
+
+## Sampling defaults — the why
+
+The Modelfile uses these values. This table explains the reasoning:
+
+| Use case | `temperature` | `top_p` | `top_k` | `repeat_penalty` | Why |
+|---|---|---|---|---|---|
+| Code generation / edits | 0.4 | 0.95 | 64 | 1.0 | Low temp = precise, deterministic output |
+| Chat / explanation | 0.7 | 0.95 | 64 | 1.0 | Higher temp = more natural conversation |
+| Structured action blocks | 0.2 | 0.9 | 40 | 1.0 | Lowest temp = reliable parseable output |
+| Vision (Gemma 3/4) | 0.5 | 0.95 | 64 | 1.0 | Balanced for image interpretation |
+
+---
+
+## Rebuilding the governed model
+
+If you update the Modelfile or pull a new base model, rebuild with:
+
+```bash
+ollama create gemma4-paarthurnax -f C:\github\paarthurnax\ollama\gemma\gemma4.Modelfile
+```
+
+To verify what's currently built:
+```bash
+ollama show gemma4-paarthurnax
+```
+
+To verify the base model chat template before rebuilding:
+```bash
+ollama show gemma4
+```
+
+---
+
+## License note
+
+Gemma is released under the **Gemma Terms of Use** — a custom non-OSI license. It is permissive enough for hobby and most commercial use but is **not** Apache 2.0 and includes a prohibited use clause Google can update. If your project has strict OSI-approved licensing requirements, prefer Qwen, Llama, or Mistral instead.
+
+---
+
+## Where to look for updates
+
+- `ollama show gemma4` — current chat template and parameters
+- [ollama.com/library/gemma3](https://ollama.com/library/gemma3) / [ollama.com/library/gemma4](https://ollama.com/library/gemma4)
+- [ai.google.dev/gemma](https://ai.google.dev/gemma) — official model cards and Gemma Terms of Use
+- [huggingface.co/google](https://huggingface.co/google) — canonical weights and current chat template definitions
