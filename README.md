@@ -3,9 +3,9 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](CHANGELOG.md)
 
-> *Codename: **Paarthurnax**. A powerful ancient being (not unlike AI) who chooses to help mortals, teach them, and guide them. Wise, patient, and never gatekeeping.*
+> ***Paarthurnax** in gaming  is apowerful dragon who chooses to help mortals, teach them, and guide them.*
 
-A drop-in governance scaffold that (hopefully) gives local open-source LLMs the behavioral structure they need to be useful coding partners inside an IDE.
+Similarly, this Codename: **Paarthurnax** tool should be wise, patient, and never gatekeeping. It's adrop-in governance scaffold that (hopefully) gives local open-source LLMs the behavioral structure they need to be useful coding partners inside an IDE.
 
 > **Legal Disclaimer:** This project is an independent, unofficial project inspired by The Elder Scrolls V: Skyrim. It is not affiliated with, endorsed by, or connected to Bethesda Softworks, Zenimax Media, Microsoft, or any official Skyrim/Dragon assets. This project uses the character name "Paarthurnax" purely for thematic inspiration and does not include any official Skyrim imagery, logos, dragon fonts, or direct quotes.
 
@@ -17,7 +17,7 @@ A drop-in governance scaffold that (hopefully) gives local open-source LLMs the 
 
 ## The problem
 
-Local LLMs (DeepSeek, Qwen, Llama, Mistral, Gemma, soon Grok-OSS) are excellent in a CLI chat. You ask a question, get an answer. But the moment you point one at a real codebase inside VS Code (or any IDE) and ask it to *build something*, it falls apart:
+Local LLMs (DeepSeek, Qwen, Gemma, soon Grok-OSS) are excellent in a CLI chat. You ask a question, get an answer. But the moment you point one at a real codebase inside VS Code (or any IDE) and ask it to *build something*, it falls apart:
 
 - It doesn't know which files are safe to read or write.
 - It invents file paths, hallucinates dependencies, edits the wrong file.
@@ -35,7 +35,7 @@ A folder you copy into your project. Inside it:
 
 - **One source of truth** for how any AI agent (cloud or local) should behave in your workspace — [`CONVENTIONS.md`](CONVENTIONS.md).
 - **Per-vendor briefings** that point every supported agent at the same rules: GitHub Copilot, Claude Code, Cline, Continue, and any local model running through Ollama.
-- **Per-model-family folders** under [`ollama/`](ollama/) ([`qwen/`](ollama/qwen/qwen.md), [`llama/`](ollama/llama/llama.md), [`mistral/`](ollama/mistral/mistral.md), [`deepseek/`](ollama/deepseek/deepseek.md), [`gemma/`](ollama/gemma/gemma.md)) with the chat-template quirks, recommended `Modelfile`, and sampling defaults each family needs to behave well. See [`ollama/README.md`](ollama/README.md) for why the cut is just these five and how to add more.
+- **Per-model-family folders** under [`ollama/`](ollama/) ([`qwen/`](ollama/qwen/qwen.md), [`deepseek/`](ollama/deepseek/deepseek.md), [`gemma/`](ollama/gemma/gemma.md)) with the chat-template quirks, recommended `Modelfile`, and sampling defaults each family needs to behave well. See [`ollama/README.md`](ollama/README.md) for why the cut is just these five and how to add more.
 - **Lazy-load skills** for cross-cutting tools (git, docker, python, powershell, …) so the always-on context stays small enough for a 14B model to think clearly.
 
 Paarthurnax is **not a VS Code extension** (and not tied to VS Code at all). It's the *brain*. An extension or custom Ollama loop is the body — and you can build either, or use the existing in-IDE agents (Cline, Continue, Copilot, Claude Code) that already know how to load this kind of scaffold.
