@@ -25,8 +25,6 @@ These are the five families that ship with vetted notes. Selection criterion: **
 | Family | Folder | Sweet spot | Why it's here |
 |---|---|---|---|
 | Qwen | [`qwen/`](qwen/qwen.md) | `qwen2.5-coder:14b` | Currently the strongest open-weight tool caller. Native function-calling tokens. The default recommendation. |
-| Llama | [`llama/`](llama/llama.md) | `llama3.1:8b` / `llama3.3:70b` | Reference implementation for "good enough" tool calling. Native support since 3.1. |
-| Mistral | [`mistral/`](mistral/mistral.md) | `mistral-nemo:12b` / `mistral-small:22b` | Solid native tool calling. Nemo is the best fit for 16 GB VRAM. |
 | DeepSeek | [`deepseek/`](deepseek/deepseek.md) | `deepseek-coder-v2:16b` / `deepseek-v3` | Strong, especially for code. V3 is a heavyweight MoE. |
 | Gemma | [`gemma/`](gemma/gemma.md) | `gemma3:12b` / `gemma2:9b` | **No native tool-calling tokens** — but follows the prose-protocol action blocks (`[READ]`/`[WRITE]`/`[RUN]`) from `CONVENTIONS.md` more reliably than several models that *do* have native tokens. Empirically validated. See the family file for the constraint and the matching loop shape. |
 
